@@ -3,59 +3,143 @@
 -->
 
 <div class="box-it">
-  <form>
+  <form [formGroup]="form">
     <table>
       <tr>
-        <td> <label for="name">Name:</label> </td>
+        <td><label for="name">Name:</label></td>
         <td>
-          <input type="text" size="50" id="name" placeholder="Your name as your NRIC">
+          <input
+            type="text"
+            size="50"
+            id="name"
+            placeholder="Your name as your NRIC"
+            formControlName="nric"
+          />
         </td>
+      </tr>
+
       <tr>
-        <td> <label for="email">Email:</label> </td>
+        <td><label for="email">Email:</label></td>
         <td>
-          <input type="email" size="50" id="email" placeholder="Your email">
+          <input
+            type="email"
+            size="50"
+            id="email"
+            placeholder="Your email"
+            formControlName="email"
+          />
         </td>
       </tr>
       <tr>
-        <td> <label for="size">Size:</label> </td>
+        <td><label for="size">Size:</label></td>
         <td>
-          <input type="range" id="size" min="0" max="3" value="0"
-              (change)="updateSize(size.value)" #size>
+          <input
+            type="range"
+            id="size"
+            min="0"
+            max="3"
+            value="0"
+            (change)="updateSize(size.value)"
+            #size
+            formControlName="size"
+          />
           <span class="ml-1vw">{{ pizzaSize }}</span>
         </td>
       </tr>
       <tr>
-        <td> <label>Base:</label> </td>
+        <td><label>Base:</label></td>
         <td>
-          <input type="radio" name="base" value="thin"> Thin Crust
-          <input type="radio" name="base" value="thick"> Thick Crust
+          <input
+            type="radio"
+            name="base"
+            value="thin"
+            formControlName="crust"
+          />
+          Thin Crust
+          <input
+            type="radio"
+            name="base"
+            value="thick"
+            formControlName="crust"
+          />
+          Thick Crust
         </td>
       </tr>
       <tr>
-        <td> <label for="sauce">Sauce:</label> </td>
+        <td><label for="sauce">Sauce:</label></td>
         <td>
           <select id="sauce">
-            <option value="classic">Classic Tomato Sauce</option>
-            <option value="signature">Signature Sauce</option>
-            <option value="salsa">Salsa Sauce</option>
-            <option value="smoky">Smoky BBQ Sauce</option>
-            <option value="napolitana">Napolitana Sauce</option>
+            <option value="classic" formControlName="sauce">
+              Classic Tomato Sauce
+            </option>
+            <option value="signature" formControlName="sauce">
+              Signature Sauce
+            </option>
+            <option value="salsa" formControlName="sauce">Salsa Sauce</option>
+            <option value="smoky" formControlName="sauce">
+              Smoky BBQ Sauce
+            </option>
+            <option value="napolitana" formControlName="sauce">
+              Napolitana Sauce
+            </option>
           </select>
         </td>
       </tr>
       <tr>
-        <td> <label>Toppings:</label> </td>
+        <td><label>Toppings:</label></td>
         <td>
           <div class="space-around">
-            <input type="checkbox" name="toppings" value="chicken"> Chicken
-            <input type="checkbox" name="toppings" value="seafood"> Seafood
-            <input type="checkbox" name="toppings" value="beef"> Beef
-            <input type="checkbox" name="toppings" value="vegetables"> Vegetables
+            <input
+              type="checkbox"
+              name="toppings"
+              value="chicken"
+              formControlName="topping"
+            />
+            Chicken
+            <input
+              type="checkbox"
+              name="toppings"
+              value="seafood"
+              formControlName="topping"
+            />
+            Seafood
+            <input
+              type="checkbox"
+              name="toppings"
+              value="beef"
+              formControlName="topping"
+            />
+            Beef
+            <input
+              type="checkbox"
+              name="toppings"
+              value="vegetables"
+              formControlName="topping"
+            />
+            Vegetables
           </div>
           <div class="space-around">
-            <input type="checkbox" name="toppings" value="cheese"> Extra Cheese
-            <input type="checkbox" name="toppings" value="arugula"> Arugula (Rocket)
-            <input type="checkbox" name="toppings" value="pineapple"> Pineapple
+            <input
+              type="checkbox"
+              name="toppings"
+              value="cheese"
+              formControlName="topping"
+            />
+            Extra Cheese
+            <input
+              type="checkbox"
+              name="toppings"
+              value="arugula"
+              formControlName="topping"
+            />
+            Arugula (Rocket)
+            <input
+              type="checkbox"
+              name="toppings"
+              value="pineapple"
+              formControlName="topping"
+            />
+            Pineapple
           </div>
           <div>
             <small>Select toppings, one or more from the above</small>
@@ -65,14 +149,19 @@
       <tr>
         <td><label for="comments">Comments:</label></td>
         <td>
-          <textarea id="comments" cols="40" rows="5"></textarea>
+          <textarea
+            id="comments"
+            cols="40"
+            rows="5"
+            formControlName="comments"
+          ></textarea>
         </td>
       </tr>
       <tr>
         <td></td>
         <td>
           <div class="justify-right">
-            <button type="submit">Place Order</button>
+            <button type="submit" [disabled]="form.invalid">Place Order</button>
           </div>
         </td>
       </tr>
