@@ -24,36 +24,52 @@ const PIZZA_TOPPINGS: string[] = [
   styleUrls: ['./main.component.css'],
 })
 export class MainComponent implements OnInit {
-  fb = inject(FormBuilder);
-  form!: FormGroup;
+  pizzaFormBuilder = inject(FormBuilder);
+  pizzaFormGroup!: FormGroup; // form will definitely have a FormGroup
 
-  pizzaSize = SIZES[0];
+  pizzaSize = SIZES[0]; // chuk setting a default pizza size
 
-  // constructor() {}
+  constructor() {}
 
+  // create a reactive form on initialisation of the page
   ngOnInit(): void {
-    this.form = this.createForm();
+    this.pizzaFormGroup = this.createForm();
   }
 
-  updateSize(size: string) {
+  updateSize(size: string): void {
     this.pizzaSize = SIZES[parseInt(size)];
   }
 
-  createForm() {
-    return this.fb.group({
-      nric: this.fb.control<string>('', [
-        Validators.required,
-        Validators.minLength(9),
-      ]),
-      email: this.fb.control<string>('', [
-        Validators.required,
-        Validators.minLength(4),
-      ]),
-      size: this.fb.control<string>('0', [Validators.required]),
-      base: this.fb.control<string>('', [Validators.required]),
-      sauce: this.fb.control<string>('', [Validators.required]),
-      toppings: this.fb.control<string>('', [Validators.required]),
-      comments: this.fb.control<string>('', []),
+  createForm(): FormGroup {
+    // create a form builder group, then
+    let toppingsGroup = this.pizzaFormBuilder.group({});
+
+    // iterate through each topping in the topping list to create controls
+    // formGroupName needs to be specified in the HTML for the for group
+    PIZZA_TOPPINGS.forEach((topping) => {
+      toppingsGroup.addControl(
+        topping,
+        this.pizzaFormBuilder.control<boolean>(false, [Validators.required])
+      );
     });
+
+    // the resulting form group that will be matched with the component
+    // things in here need to match the "formControlName" in the html
+    return this.pizzaFormBuilder.group({
+      name: this.pizzaFormBuilder.control<string>('', [Validators.required]),
+      email: this.pizzaFormBuilder.control<string>('', [
+        Validators.required,
+        Validators.email,
+      ]),
+      size: this.pizzaFormBuilder.control<number>(0, [Validators.required]),
+      base: this.pizzaFormBuilder.control<string>('', [Validators.required]),
+      sauce: this.pizzaFormBuilder.control<string>('', [Validators.required]),
+      toppings: toppingsGroup,
+      comments: this.pizzaFormBuilder.control<string>(''),
+    });
+  }
+
+  placeOrder(): void {
+    console.log('Order submit button clicked.');
   }
 }

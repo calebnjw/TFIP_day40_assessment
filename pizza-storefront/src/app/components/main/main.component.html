@@ -3,7 +3,7 @@
 -->
 
 <div class="box-it">
-  <form [formGroup]="form">
+  <form [formGroup]="pizzaFormGroup" (submit)="placeOrder()">
     <table>
       <tr>
         <td><label for="name">Name:</label></td>
@@ -12,8 +12,8 @@
             type="text"
             size="50"
             id="name"
+            formControlName="name"
             placeholder="Your name as your NRIC"
-            formControlName="nric"
           />
         </td>
       </tr>
@@ -25,96 +25,92 @@
             type="email"
             size="50"
             id="email"
-            placeholder="Your email"
             formControlName="email"
+            placeholder="Your email"
           />
         </td>
       </tr>
+
       <tr>
         <td><label for="size">Size:</label></td>
         <td>
+          <!-- #size declares a template variable, -->
+          <!-- which allows the "size.value" in the -->
+          <!-- "updateSize()" function to work  -->
+          <!-- it lets us call the element by this name -->
+          <!-- to access its properties and contents -->
           <input
             type="range"
             id="size"
+            formControlName="size"
             min="0"
             max="3"
             value="0"
             (change)="updateSize(size.value)"
             #size
-            formControlName="size"
           />
           <span class="ml-1vw">{{ pizzaSize }}</span>
         </td>
       </tr>
+
       <tr>
         <td><label>Base:</label></td>
         <td>
-          <input
-            type="radio"
-            name="base"
-            value="thin"
-            formControlName="crust"
-          />
+          <input type="radio" name="base" value="thin" formControlName="base" />
           Thin Crust
           <input
             type="radio"
             name="base"
             value="thick"
-            formControlName="crust"
+            formControlName="base"
           />
           Thick Crust
         </td>
       </tr>
+
       <tr>
         <td><label for="sauce">Sauce:</label></td>
         <td>
-          <select id="sauce">
-            <option value="classic" formControlName="sauce">
-              Classic Tomato Sauce
-            </option>
-            <option value="signature" formControlName="sauce">
-              Signature Sauce
-            </option>
-            <option value="salsa" formControlName="sauce">Salsa Sauce</option>
-            <option value="smoky" formControlName="sauce">
-              Smoky BBQ Sauce
-            </option>
-            <option value="napolitana" formControlName="sauce">
-              Napolitana Sauce
-            </option>
+          <select id="sauce" formControlName="sauce">
+            <option value="classic">Classic Tomato Sauce</option>
+            <option value="signature">Signature Sauce</option>
+            <option value="salsa">Salsa Sauce</option>
+            <option value="smoky">Smoky BBQ Sauce</option>
+            <option value="napolitana">Napolitana Sauce</option>
           </select>
         </td>
       </tr>
+
       <tr>
         <td><label>Toppings:</label></td>
-        <td>
+        <td formGroupName="toppings">
           <div class="space-around">
             <input
               type="checkbox"
               name="toppings"
               value="chicken"
-              formControlName="topping"
+              formControlName="chicken"
             />
             Chicken
             <input
               type="checkbox"
               name="toppings"
               value="seafood"
-              formControlName="topping"
+              formControlName="seafood"
             />
             Seafood
             <input
               type="checkbox"
               name="toppings"
               value="beef"
-              formControlName="topping"
+              formControlName="beef"
             />
             Beef
             <input
               type="checkbox"
               name="toppings"
               value="vegetables"
-              formControlName="topping"
+              formControlName="vegetables"
             />
             Vegetables
           </div>
@@ -123,21 +119,21 @@
               type="checkbox"
               name="toppings"
               value="cheese"
-              formControlName="topping"
+              formControlName="cheese"
             />
             Extra Cheese
             <input
               type="checkbox"
               name="toppings"
               value="arugula"
-              formControlName="topping"
+              formControlName="arugula"
             />
             Arugula (Rocket)
             <input
               type="checkbox"
               name="toppings"
               value="pineapple"
-              formControlName="topping"
+              formControlName="pineapple"
             />
             Pineapple
           </div>
@@ -146,22 +142,26 @@
           </div>
         </td>
       </tr>
+
       <tr>
         <td><label for="comments">Comments:</label></td>
         <td>
           <textarea
             id="comments"
+            formControlName="comments"
             cols="40"
             rows="5"
-            formControlName="comments"
           ></textarea>
         </td>
       </tr>
+
       <tr>
         <td></td>
         <td>
           <div class="justify-right">
-            <button type="submit" [disabled]="form.invalid">Place Order</button>
+            <button type="submit" [disabled]="pizzaFormGroup.invalid">
+              Place Order
+            </button>
           </div>
         </td>
       </tr>
