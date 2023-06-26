@@ -1,5 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { OrderData, PizzaResponse } from 'src/app/models';
+import { PizzaService } from 'src/app/pizza.service';
 
 const SIZES: string[] = [
   'Personal - 6 inches',
@@ -22,14 +26,17 @@ const PIZZA_TOPPINGS: string[] = [
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css'],
+  providers: [PizzaService],
 })
 export class MainComponent implements OnInit {
+  router = inject(Router);
+
   pizzaFormBuilder = inject(FormBuilder);
   pizzaFormGroup!: FormGroup; // form will definitely have a FormGroup
 
   pizzaSize = SIZES[0]; // chuk setting a default pizza size
 
-  constructor() {}
+  constructor(private pizzaService: PizzaService) {}
 
   // create a reactive form on initialisation of the page
   ngOnInit(): void {
@@ -70,6 +77,16 @@ export class MainComponent implements OnInit {
   }
 
   placeOrder(): void {
-    console.log('Order submit button clicked.');
+    // this.pizzaService.placeOrder(piz);
+    let orderData: OrderData = this.pizzaFormGroup.value;
+    console.log(orderData);
+
+    firstValueFrom(this.pizzaService.placeOrder(orderData))
+      .then((result: PizzaResponse) => {
+        this.router.navigate(['/orders', result.email]);
+      })
+      .catch((error) => {
+        alert(error.error);
+      });
   }
 }

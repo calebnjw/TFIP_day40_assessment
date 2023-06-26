@@ -49,7 +49,7 @@ public class OrdersRepository {
 				.append("comments", order.getComments())
 				.append("toppings", order.getToppings());
 
-		mongoTemplate.insert(orderToInsert, ORDER_COLLECTION);
+		mongoTemplate.insert(orderToInsert, "orders");
 	}
 
 	// TODO: Task 6
