@@ -1,3 +1,13 @@
+export interface FormData {
+  name: string;
+  email: string;
+  size: number;
+  base: string;
+  sauce: string;
+  toppings: { [key: string]: [value: boolean] };
+  comments: string;
+}
+
 export interface OrderData {
   name: string;
   email: string;

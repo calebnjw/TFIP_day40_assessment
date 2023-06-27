@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { OrderData, PizzaResponse } from 'src/app/models';
+import { FormData, PizzaResponse } from 'src/app/models';
 import { PizzaService } from 'src/app/pizza.service';
 
 const SIZES: string[] = [
@@ -78,14 +78,14 @@ export class MainComponent implements OnInit {
 
   placeOrder(): void {
     // this.pizzaService.placeOrder(piz);
-    let orderData: OrderData = this.pizzaFormGroup.value;
-    console.log(orderData);
+    let formData: FormData = this.pizzaFormGroup.value;
 
-    firstValueFrom(this.pizzaService.placeOrder(orderData))
+    firstValueFrom(this.pizzaService.placeOrder(formData))
       .then((result: PizzaResponse) => {
         this.router.navigate(['/orders', result.email]);
       })
       .catch((error) => {
+        console.log(error.error);
         alert(error.error);
       });
   }

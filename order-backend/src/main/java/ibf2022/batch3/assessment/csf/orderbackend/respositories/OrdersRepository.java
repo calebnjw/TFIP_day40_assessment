@@ -5,9 +5,11 @@ import java.util.List;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Repository;
 
 import ibf2022.batch3.assessment.csf.orderbackend.models.PizzaOrder;
 
+@Repository
 public class OrdersRepository {
 
 	// create collection first when setting up mongo

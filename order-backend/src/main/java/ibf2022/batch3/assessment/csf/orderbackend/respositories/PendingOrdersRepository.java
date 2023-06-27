@@ -1,11 +1,14 @@
 package ibf2022.batch3.assessment.csf.orderbackend.respositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Repository;
 
 import ibf2022.batch3.assessment.csf.orderbackend.models.PizzaOrder;
 import jakarta.json.Json;
 
+@Repository
 public class PendingOrdersRepository {
 
 	// we use RedisTemplate instead of MongoTemplate for redis
@@ -14,6 +17,7 @@ public class PendingOrdersRepository {
 	// we use <String, String> because we save the json as string
 	// and read from string when we retrieve it
 	@Autowired
+	@Qualifier("pending-orders")
 	private RedisTemplate<String, String> redisTemplate;
 
 	// TODO: Task 3

@@ -1,4 +1,4 @@
-package ibf2022.batch3.assessment.csf.orderbackeand.controllers;
+package ibf2022.batch3.assessment.csf.orderbackend.controllers;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import jakarta.json.JsonValue;
 
 @RestController
 @RequestMapping(path = "/api")
+@CrossOrigin(origins = "*")
 public class OrderController {
 
 	@Autowired
@@ -52,9 +54,15 @@ public class OrderController {
 
 	@PostMapping(path = "/order", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> placeOrder(@RequestBody String payload) {
+		System.out.println(">>> Inside the controller, order post mapping.");
+		System.out.println(payload);
+
 		// create a JSON reader that takes in a string reader
 		// then tell it to read the string object
 		JsonObject pizzaJson = Json.createReader(new StringReader(payload)).readObject();
+
+		// System.out.println(pizzaJson);
+		// System.out.println(pizzaJson.getJsonArray("toppings"));
 
 		PizzaOrder pizzaOrder = new PizzaOrder();
 
@@ -64,7 +72,11 @@ public class OrderController {
 		pizzaOrder.setThickCrust(pizzaJson.getString("base").equalsIgnoreCase("thick"));
 		pizzaOrder.setSauce(pizzaJson.getString("sauce"));
 
+		System.out.println("1");
+
 		JsonArray topppingsJsonArray = pizzaJson.getJsonArray("toppings");
+		System.out.println("2");
+
 		List<String> toppingsList = new LinkedList<>();
 		for (JsonValue t : topppingsJsonArray) {
 			toppingsList.add(t.toString());
@@ -80,7 +92,7 @@ public class OrderController {
 					.add("date", orderResult.getDate().toString())
 					.add("name", orderResult.getName())
 					.add("email", orderResult.getEmail())
-					.add("total", orderResult.getTotal())
+					.add("total", orderResult.getTotal().toString())
 					.build();
 
 			return ResponseEntity.status(HttpStatus.ACCEPTED)
